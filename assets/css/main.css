@@ -84,8 +84,19 @@ body {
 }
 
 .icon {
-  width: 24px;
-  margin-right: 12px;
+  width: 96px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.icon-bg {
+  border-color: #a9a9a9;
+  background-color: #45004514;
+  color: #450045;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .list-group {
