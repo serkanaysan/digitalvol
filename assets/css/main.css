@@ -18,7 +18,7 @@ body {
 }
 
 .btn-primary:hover,
-.btn-primary:active, 
+.btn-primary:active,
 .btn-primary:focus {
   color: #fff;
   background-color: #450045;
@@ -264,8 +264,19 @@ body {
   margin-top: 10px;
 }
 
+.desktop-frame {
+  width: 900px;
+  height: 500px;
+  border: 16px solid black;
+  border-radius: 36px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
+}
+
 .device-frame {
-  width: 300px;
+  width: 352px;
   height: 600px;
   border: 16px solid black;
   border-radius: 36px;
@@ -301,4 +312,20 @@ h3 {
 
 .navbar-nav-scroll {
   max-height: unset;
+}
+
+.offcanvas-end {
+  top: 0;
+  right: 0;
+  width: auto !important;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  transform: translateX(100%);
+}
+
+.offcanvas-end-desktop {
+  top: 0;
+  right: 0;
+  width: 972px;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  transform: translateX(100%);
 }

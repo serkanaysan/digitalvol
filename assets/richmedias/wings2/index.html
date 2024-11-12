@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <style>
+        body {
+            width: 100%;
+            margin: 0px auto;
+            padding: 0px;
+        }
+        div.main{
+            display: block;
+            position: relative;
+            width: 968px;
+            height: 250px;
+            border: 1px #cccccc solid;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            background-color: #87afb9;
+        }
+        div.left{
+            position: relative;
+            width: 608px;
+            left: 0;
+            top: 0;
+            z-index: 99;
+        }
+        img.button{
+            position: absolute;
+            left: 18px;
+            top: 184px;
+
+            transform: scale(1);
+            transition: all 1.5s;
+            -webkit-transition: all 1.5s;
+        }
+        img.button.top{
+            transform: scale(1.1);
+        }
+        div.slider{
+            position: absolute;
+            width: 450px;
+            right: 0;
+            top: 0;
+            
+            overflow: hidden;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            z-index: 98;
+        }
+        div.slidecontainer{
+            position: absolute;
+            width: 430px;
+            bottom: 19px;
+            right: 0;
+            z-index: 999999;
+        }
+        div.slidecontainer div.line{
+            width: 380px;
+            height: 2px;
+            background-color: #fff;
+            position: absolute;
+            top: 13px;
+            left: 26px;
+        }
+        input.slider-bar {
+            -webkit-appearance: none;
+            width: 420px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0);
+            outline: none;
+            opacity: 1;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+        input.slider-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 54px;
+            height: 35px;
+            background-image: url('draw.png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 50% 50%;
+            cursor:move;
+            transform: scale(2);
+        }
+        input.slider-bar::-moz-range-thumb {
+            width: 54px;
+            height: 35px;
+            background-image: url('draw.png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 50% 50%;
+            cursor: move;
+            transform: scale(2);
+        }
+        ul{
+            display: block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: max-content;
+            position: relative;
+            left: -70px;
+        }
+        ul li{
+            width: 213px;
+            height: 248px;
+            display: inline-block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            padding: 0 3px;
+            margin-left: -4px;
+            vertical-align: top;
+        }
+        ul li div.box{
+            display: block;
+            width: 100%;
+            height: 213px;
+            margin-top:13px;
+            
+            -webkit-transition: .2s ease-in-out;
+            -moz-transition: .2s ease-in-out;
+            -o-transition: .2s ease-in-out;
+            transition: .2s ease-in-out;
+            background-position: 50% 50%;
+            background-position-x: 50%;
+            background-position-y: 50%;
+            background-repeat: no-repeat;
+            background-size: auto 100%;
+            position: relative;
+            
+        }
+        ul li div.box a{
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+        ul li div.box-act{
+            margin-top: 0;
+            margin-left: -20px;
+            height: 100%;
+            width: 120%;
+            z-index: 999;
+            position: relative;
+            background-position: 50% 50%;
+            background-position-x: 50%;
+            background-position-y: 50%;
+            background-repeat: no-repeat;
+            background-size: auto 100%;
+        }
+        #boxs{
+            transition: all .2s ease;
+        }
+    </style>
+    <script>
+        var clickTag = "https://www.akbank.com/basvuru/kredi-karti/entrypoint.aspx?cid=wingsmib&utm_source=kk_clickvol&utm_medium=wingssatis_int_masthead&utm_campaign=wingssatis_wings_january_202301";
+        var activeAry = [];
+        var sliderTict = 0;
+        var boxCount = 0;
+        var boxWidth = 0;
+        var marginLeft = 0;
+        var count = 1;
+        var boxAct = false;
+        var autoslide = 5;
+        var myInterval = setInterval(myTimer, 15);
+        var startDir = true;
+        var startDirFlag = true;
+        window.onload = function() {
+            var boxs = document.getElementById("boxs");
+            boxCount = boxs.getElementsByTagName("li").length;
+            boxWidth = boxs.getElementsByTagName("li")[0].offsetWidth;
+            sliderTict = (boxs.offsetWidth-((boxWidth*2)+marginLeft))/1000;
+            document.getElementById("inputRange").max = 1000;
+            for(var i = 0; i<boxCount; i++){
+                activeAry.push({x1:(i*(boxWidth/sliderTict)-100), x2:((i*(boxWidth/sliderTict)) + (boxWidth/sliderTict)-100)});
+            }
+        }
+        function sliderChange(val) {
+            var left = sliderTict * val;
+
+            boxs.style.transform =  "translateX(" + (-(left)) + "px)";
+            var filterEl = activeAry.findIndex(x => x.x1 < val && x.x2 > val);
+            if(boxAct){
+                for(var i = 0; i<boxCount; i++){
+                    boxs.getElementsByTagName("li")[i].getElementsByTagName("div")[0].classList.remove("box-act");
+                }
+                boxs.getElementsByTagName("li")[filterEl+1].getElementsByTagName("div")[0].classList.add("box-act");
+            }
+        }
+        function myTimer() {
+            if(startDir){
+                if(Number(document.getElementById("inputRange").value) > 850){
+                    autoslide = 5;
+                }
+                document.getElementById("inputRange").value = Number(document.getElementById("inputRange").value) + autoslide;
+            }else{
+                if(Number(document.getElementById("inputRange").value) < 150){
+                    autoslide = 5;
+                }
+                document.getElementById("inputRange").value = Number(document.getElementById("inputRange").value) - autoslide;
+            }
+            sliderChange(document.getElementById("inputRange").value);
+            if(startDirFlag && Number(document.getElementById("inputRange").value) === 1000){
+                autoslide = 5;
+                startDir = false;
+                startDirFlag = false;
+            }else if(!startDir && Number(document.getElementById("inputRange").value) === 1){
+                clearInterval(myInterval);
+                boxAct = true;
+                boxs.getElementsByTagName("li")[1].getElementsByTagName("div")[0].classList.add("box-act");
+            }
+        }
+        // setInterval(function(){
+        //     var con = document.getElementById("btn").classList.contains("top");
+        //     if(con){
+        //         document.getElementById("btn").classList.remove("top");
+        //     }else{
+        //         document.getElementById("btn").classList.add("top");
+        //     }
+        // }, 500);
+    </script>
+</head>
+<body>
+    <div class="main" id="main">
+        <div class="left"><a href="javascript:window.open(window.clickTag)"><img src="b1.png"><img id="btn" class="button" src="hb.png"></a></div>
+        <div class="slider">
+            <ul id="boxs">
+                <li><div class="box"></div></li>
+                <li><div class="box" style="background-image: url('01.jpg');"><a href="https://www.wingscard.com.tr/programlar?cid=wingsmib&utm_source=kk_clickvol&utm_medium=wingssatis_int_masthead&utm_campaign=wingssatis_wings_january_202301" target="_blank"></a></div></li>
+                <li><div class="box" style="background-image: url('02.jpg');"><a href="https://www.wingscard.com.tr/programlar?cid=wingsmib&utm_source=kk_clickvol&utm_medium=wingssatis_int_masthead&utm_campaign=wingssatis_wings_january_202301" target="_blank"></a></div></li>
+                <li><div class="box" style="background-image: url('03.jpg');"><a href="https://www.wingscard.com.tr/programlar?cid=wingsmib&utm_source=kk_clickvol&utm_medium=wingssatis_int_masthead&utm_campaign=wingssatis_wings_january_202301" target="_blank"></a></div></li>
+                <li><div class="box" style="background-image: url('04.jpg');"><a href="https://www.wingscard.com.tr/programlar?cid=wingsmib&utm_source=kk_clickvol&utm_medium=wingssatis_int_masthead&utm_campaign=wingssatis_wings_january_202301" target="_blank"></a></div></li>
+                <li><div class="box" style="background-image: url('05.jpg');"><a href="https://www.wingscard.com.tr/programlar?cid=wingsmib&utm_source=kk_clickvol&utm_medium=wingssatis_int_masthead&utm_campaign=wingssatis_wings_january_202301" target="_blank"></a></div></li>
+            </ul>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="slidecontainer">
+            <div class="line"></div>
+            <input type="range" min="1" value="1" class="slider-bar" id="inputRange" onchange="" oninput="sliderChange(this.value)">
+        </div>
+    </div>
+</body>
+</html>
