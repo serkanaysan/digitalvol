@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+        var clickTag = "https://ad.doubleclick.net/ddm/trackclk/N957631.337837CLICKVOL.COM/B29057427.353836481;dc_trk_aid=545208847;dc_trk_cid=183320762;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd= ";
+        var timer;
+        var flag = true;
+        if (typeof Object.create !== 'function') {
+            ScratchCard.create = function (obj) {
+                function F() {};
+                F.prototype = obj;
+                return new F();
+            };
+        }
+        function finalAction(){
+            clearTimeout(timer);
+            $("#main").fadeOut();
+            $("#final").fadeIn();
+        }
+        function resize(){
+            var a = window.innerWidth / 320;
+            var b = window.innerHeight / 480;
+            return a < b ? a : b;
+        }
+var scratchCardId = 0;
+(function ($, window, document, undefined) {
+    console.log((480 * resize()))
+    var scratchCardTemplate = $("<Canvas class='scratchCanvas' style='background-repeat:no-repeat;background-size: contain; display:none;' height='" + (480 * resize()) + "' width='" + (320 * resize()) + "'></Canvas>");
+
+    var ScratchCard = {
+        init: function (options, elem) {
+            var self = this;
+            self.elem = elem;
+            self.$elem = $(elem);
+            self.options = $.extend({}, $.fn.rabidScratchCard.options, options);
+            self.options.backgGroundImage = self.$elem.data("backgroundimage");
+            self.options.foreGroundImage = self.$elem.data("foregroundimage");
+            self.loadedImages = 0;
+            var canvasBgImg = new Image();
+            canvasBgImg.onload = function () {
+                self.newScratchCanvas = scratchCardTemplate.clone();
+                self.$elem.html(self.newScratchCanvas);
+                self.theCanvas = self.newScratchCanvas;
+
+                self.ctx = self.theCanvas[0].getContext("2d");
+
+
+                $(window).bind('mousedown', $.proxy(self.addDownHandler, self));
+                self.theCanvas.bind('mouseup', $.proxy(self.addUpHandler, self));
+                $(window).bind('mouseup', $.proxy(self.addUpHandler, self));
+                self.theCanvas.bind('touchmove', $.proxy(self.touchmoveHandler, self));
+                self.theCanvas.bind('touchstart', $.proxy(self.touchstartHandler, self));
+
+                $(self.theCanvas).css({
+                    "backgroundImage": "url(" + canvasBgImg.src + ")",
+
+                });
+                self.theCanvas[0].width = (320 * resize());
+                self.theCanvas[0].height = (480 * resize());//canvasBgImg.height * (window.innerWidth / window.innerHeight);
+                self.loadedImages++;
+
+                self.theCanvas.css("display", "inline-block")
+                self.initX = self.theCanvas.offset().left;
+                self.initY = self.theCanvas.offset().top;
+            };
+            var bgImg = new Image();
+            bgImg.onload = function () {
+                self.srcImg = bgImg;
+                canvasBgImg.src = self.options.foreGroundImage;
+            }
+            bgImg.src = self.options.backgGroundImage;
+        },
+        addDownHandler: function (e) {
+            var self = this;
+            self.theCanvas.bind('mousemove', $.proxy(self.mouseMoveHandler, self));
+            
+            timer = setTimeout(finalAction, 3000);
+        },
+        addUpHandler: function (e) {
+            var self = this;
+            self.theCanvas.unbind('mousemove')
+        },
+        mouseMoveHandler: function (e) {
+            var self = this;
+            var mouseX = e.pageX - e.currentTarget.offsetLeft;
+            mouseY = e.pageY - e.currentTarget.offsetTop;
+            self.reveal(mouseX, mouseY, self);
+        },
+        touchmoveHandler: function (e) {
+            var self = this;
+            e.preventDefault();
+            var event = window.event;
+            mouseX = event.touches[0].pageX - self.initX;
+            mouseY = event.touches[0].pageY - self.initY;
+            self.reveal(mouseX, mouseY, self);
+            if(flag){
+                document.getElementById("cursor").style.display = "none";
+                timer = setTimeout(finalAction, 3000);
+                flag = false;
+            }
+        },
+        touchstartHandler: function (e) {
+            document.getElementById("cursor").style.display = "none";
+            timer = setTimeout(finalAction, 3000);
+        },
+        
+        reveal: function (mouseX, mouseY, self) {
+            self.ctx.save();
+            // Can't make a true circle, so we make an arced line that happens to trace a circle - 'i' is used to define our radius.
+            self.ctx.arc(mouseX, mouseY, self.options.revealRadius, 0, 2 * Math.PI, false);
+            self.ctx.clip();
+            self.ctx.drawImage(self.srcImg, 0, 0, (320 * resize()), ((480 * resize())));
+            self.ctx.restore();
+        }
+    }
+    $.fn.rabidScratchCard = function (options) {
+        return this.each(function () {
+            var scratchCard = Object.create(ScratchCard);
+            scratchCard.init(options, this);
+        });
+    };
+    //Defaults
+    $.fn.rabidScratchCard.options = {
+        foreGroundImage: null,
+        backgGroundImage: null,
+        revealRadius: 30
+    };
+})(jQuery, window, document);
+var played = false;
+
+$(document).ready(function () {
+    $("#main").fadeIn();
+
+    $(".panel").rabidScratchCard({
+        revealRadius: 30
+    });
+
+    // enable touch even for scratching on mobile devices
+    $("div.panel").bind("mousedown touchstart", (function () {
+
+        // record the fact a winning panel has been scratched
+        if ($(this).hasClass('win')) {
+            win_hits++;
+        }
+        total_hits++;
+
+        $(this).unbind('mousedown touchstart');
+
+    }));
+
+    $("body").bind("mouseup touchend", (function () {
+
+        // check how many scratches there have been
+        check_hits();
+    }));
+
+    var total_hits = 0;
+    var win_hits = 0;
+
+    function check_hits() {
+
+        // if 3 matching cards scratched, notify of WIN!
+        if (win_hits == 3) {
+            played = true;
+
+            alert("You're a winner!");
+
+        }
+        // if all panels are scratched and they're not  winner
+        else if (total_hits == 9) {
+            played = true;
+
+            alert("Sorry, you're not a winner today");
+        }
+    }
+
+});
+    </script>
+    <style>
+        body {
+            width: 100%;
+            margin: 0px auto;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body style="background-image: url('bg.png');background-position: 0 0;background-repeat: no-repeat;background-size: cover;">
+    <div id="main">
+        <img src="duzlestir.png" id="cursor" style="position: absolute;left:20%;top:60%;margin-top: -40px;margin-left: -40px;">
+        <div class="panel win" id="panel3" data-backgroundimage="bg.png" data-foregroundimage="kirisik-bg.png"></div>
+    </div>
+    <a id="final" href="javascript:void(window.open(clickTag))" style="position: absolute;top:0;left:0; display:none;width:100%;height:100%;"><img src="final.jpg" style="width: 100%;"></a>
+    
+	<IMG SRC="https://ad.doubleclick.net/ddm/trackimp/N957631.337837CLICKVOL.COM/B29057427.353836481;dc_trk_aid=545208847;dc_trk_cid=183320762;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ltd=?" BORDER="0" HEIGHT="1" WIDTH="1" ALT="Advertisement">
+</body>
+</html>

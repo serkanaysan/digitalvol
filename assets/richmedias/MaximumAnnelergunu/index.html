@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Maximum</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        html, body {height: 100%; margin: 0; padding: 0;}
+        * html #outer {/* ie6 and under only*/
+            height:100%;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+        .main{
+            position: relative;
+        }
+        img{
+            max-width: 100%;
+        }
+        .first{
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 99;
+        }
+        .first-img{
+
+        }
+        .text-img{
+            position: absolute;
+            left: 5%;
+            top: 45px;
+            max-width: 90%;
+            -webkit-transition: .2s ease-in-out;
+            -moz-transition: .2s ease-in-out;
+            -o-transition: .2s ease-in-out;
+            transition: .2s ease-in-out;
+        }
+        .text2-img{
+            position: absolute;
+            left:10%;
+            bottom: 11%;
+            width: 40%;
+            -webkit-transition: .2s ease-in-out;
+            -moz-transition: .2s ease-in-out;
+            -o-transition: .2s ease-in-out;
+            transition: .2s ease-in-out;
+        }
+        .kart{
+            position: absolute;
+            left: 50%;
+            margin-left: -16%;
+            bottom: 5%;
+            width: 32%;
+        }
+        .kart-anim{
+            animation: tilt-shaking 0.40s infinite;
+        }
+        @keyframes tilt-shaking {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0eg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .hidden{
+            opacity: 0;
+        }
+        .anim{
+            -webkit-transition: .2s ease-in-out;
+            -moz-transition: .2s ease-in-out;
+            -o-transition: .2s ease-in-out;
+            transition: .2s ease-in-out;
+        }
+        .blank-box{
+            position: absolute;
+            left: 0;
+            top: 150px;
+        }
+        .final{
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            -webkit-transition: .4s ease-in-out;
+            -moz-transition: .4s ease-in-out;
+            -o-transition: .4s ease-in-out;
+            transition: .4s ease-in-out;
+
+            transform: scale(0);
+            -webkit-transform: scale(0);;
+            -moz-transform: scale(0);
+            -o-transform: scale(0);
+        }
+        .open{
+            transform: scale(1);
+            -webkit-transform: scale(1);;
+            -moz-transform: scale(1);
+            -o-transform: scale(1);
+        }
+    </style>
+    <script>
+        var clickTag = "https://bs.serving-sys.com/Serving/adServer.bs?cn=trd&pli=1079220512&gdpr=${GDPR}&gdpr_consent=${GDPR_CONSENT_68}&us_privacy=${US_PRIVACY}&adid=1090386936&ord=ADTIME";
+        $(document).ready(function () {
+            var el;
+            var start = false;
+            var mouseposx,mouseposy;
+            var count = 0;
+            $("img.kart").on('touchstart', function(e) {
+                start = true;
+                $('img.kart').removeClass("kart-anim");
+            });
+            $("div.first").on('touchmove', function(e) {
+                if(!start)
+                    return;
+                console.log($("img.kart")[0].clientWidth);
+                var x = (e.originalEvent.touches[0].clientX);
+                var y = (e.originalEvent.touches[0].clientY);
+                $("img.kart")[0].style.left = x - ($("img.kart")[0].clientWidth / 10) + "px";
+                $("img.kart")[0].style.top = y - ($("img.kart")[0].clientHeight / 2) + "px";
+                mouseposx = (e.originalEvent.touches[0].clientX);
+                mouseposy = (e.originalEvent.touches[0].clientY);
+            });
+            $("div.first").on('touchend', function(e) {
+                if(!start)
+                    return;
+                var lasty = $("img.blank-box").offset().top + $("img.blank-box").outerHeight();
+                var lastx = $("img.blank-box").offset().left + $("img.blank-box").outerWidth();
+                if(
+                    (mouseposy > $("img.blank-box").offset().top) &&
+                    (mouseposy < lasty) && 
+                    (mouseposx > $("img.blank-box").offset().left) &&
+                    (mouseposx < lastx)){
+                        $('img.first-img').attr('src','animate.gif');
+                        $('img.text-img').addClass("hidden");
+                        $('img.text2-img').addClass("hidden");
+                        $('img.kart').addClass("anim");
+                        $('img.kart').addClass("hidden");
+                        setTimeout(function () {
+                            $("div.final").addClass("open");
+                        }, 1700);
+                        return;
+                }
+                $('img.kart').addClass("kart-anim");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="main">
+        <img src="blank.png">
+        <div class="first">
+            <img src="ilk.jpg" class="first-img">
+            <img src="text.png" class="text-img">
+            <img src="text2.png" class="text2-img">
+            <img src="kart.png" class="kart kart-anim">
+            <img src="blank-box.png" class="blank-box">
+        </div>
+        <div class="final"><a href="javascript:window.open(window.clickTag)"><img src="final.jpg"></a></div>
+        <img src="final.jpg" width="0" height="0">
+    </div>
+</body>
+</html>
