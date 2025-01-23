@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <style>
+        body {
+            width: 100%;
+            margin: 0px auto;
+            padding: 0px;
+        }
+        div.main{
+            width: 320px;
+            height: 568px;
+            overflow: hidden;
+        }
+        div.s1 {
+            display: block;
+            height: 568px;
+            position: relative;
+            
+            background-position: 50% 50%;
+            background-position-x: center;
+            background-position-y: center;
+            background-repeat: no-repeat;
+        }
+        div.s1 img {
+            position: absolute;
+			display:none;
+        }
+        div.s1 a{
+            display: inline-block;
+            position: absolute;
+            bottom: 16px;
+            left: 111px;
+        }
+            div.s1 a img {
+                position:relative;
+				
+            }
+        div.s2{
+            display: none;
+            height: 568px;
+            position: relative;
+            
+            background-position: 50% 50%;
+            background-position-x: center;
+            background-position-y: center;
+            background-repeat: no-repeat;
+        }
+        div.s2 a{
+            display: block;
+            width: 100%;
+            height: 100%;
+            z-index: 999999;
+        }
+        div.fis{
+            position: absolute;
+            top:358px;
+            margin-left: 137px;
+            cursor: pointer;
+            z-index: 5;
+            -webkit-transition: top 0.5s ease-out;
+            -moz-transition: top 0.5s ease-out;
+            -o-transition: top 0.5s ease-out;
+            transition: top 0.5s ease-out;
+        }
+        div.fis-close{
+            top:216px;
+        }
+        div.priz{
+            position: absolute;
+            margin-top: 182px;
+            margin-left: 99px;
+            z-index: 4;
+        }
+        div.s3{
+            display: none;
+            height: 568px;
+            position: relative;
+        }
+        div.s3 img{
+            position: absolute;
+        }
+        .player{
+            position: absolute;
+            left: 20px;
+            top: 60px;
+        }
+        div.s4{
+            display: none;
+            height: 568px;
+            position: relative;
+            
+            background-position: 50% 50%;
+            background-position-x: center;
+            background-position-y: center;
+            background-repeat: no-repeat;
+        }
+        div.s4 a{
+            display: block;
+            width: 100%;
+            height: 568px;
+        }
+    </style>
+    <script>
+        var clickTag = "https://ad.doubleclick.net/ddm/trackclk/N465016.337837CLICKVOL.COM/B28199977.341949725;dc_trk_aid=533839835;dc_trk_cid=175166485;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=";
+        var counter1 = 1;
+        var counter2 = 1;
+        video1();
+        function vibrate(){
+            document.getElementById("fis").className += " fis-close";
+            setTimeout(function(){ 
+                changeS(2);
+                video2();
+             }, 1000);
+            navigator.vibrate(500);
+        }
+        function video1() {
+            setTimeout(function () {
+                if (counter1 <= 40) {
+                    document.getElementById("ss" + counter1).style.display = "block";
+					if(counter1 > 1)
+                    document.getElementById("ss" + (counter1 - 1)).style.display = "none";
+                    counter1++;
+                } else {
+                    for (var i = 1; i <= 40; i++) {
+                        document.getElementById("ss" + i).style.display = "none";
+                    }
+                    //counter1 = 1;
+					changeS();
+                }
+                video1();
+            }, 60);
+        }
+        function video2(){
+            setTimeout(function(){
+                if (counter2 <= 18){
+                    document.getElementById("y" + counter2).style.display = "none";
+                    counter2++;
+                    video2();
+                }else{
+                    changeS(3);
+                }
+            }, 111);
+        }
+        function changeS(s){
+                            document.getElementById("s1").style.display = "none";
+                document.getElementById("s2").style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <div class="main">
+        <div class="s1" id="s1">
+        	<img id="ss40" src="Comp 2_00059-min.png">
+            <img id="ss39" src="Comp 2_00058-min.png">
+            <img id="ss38" src="Comp 2_00057-min.png">
+            <img id="ss37" src="Comp 2_00056-min.png">
+            <img id="ss36" src="Comp 2_00055-min.png">
+            <img id="ss35" src="Comp 2_00054-min.png">
+            <img id="ss34" src="Comp 2_00053-min.png">
+            <img id="ss33" src="Comp 2_00033-min.png">
+            <img id="ss32" src="Comp 2_00032-min.png">
+            <img id="ss31" src="Comp 2_00031-min.png">
+            <img id="ss30" src="Comp 2_00030-min.png">
+            <img id="ss29" src="Comp 2_00028-min.png">
+            <img id="ss28" src="Comp 2_00027-min.png">
+            <img id="ss27" src="Comp 2_00026-min.png">
+            <img id="ss26" src="Comp 2_00025-min.png">
+            <img id="ss25" src="Comp 2_00024-min.png">
+            <img id="ss24" src="Comp 2_00023-min.png">
+            <img id="ss23" src="Comp 2_00022-min.png">
+            <img id="ss22" src="Comp 2_00021-min.png">
+            <img id="ss21" src="Comp 2_00020-min.png">
+            <img id="ss20" src="Comp 2_00019.png">
+            <img id="ss19" src="Comp 2_00018.png">
+            <img id="ss18" src="Comp 2_00017.png">
+            <img id="ss17" src="Comp 2_00016.png">
+            <img id="ss16" src="Comp 2_00015.png">
+            <img id="ss15" src="Comp 2_00014.png">
+            <img id="ss14" src="Comp 2_00013.png">
+            <img id="ss13" src="Comp 2_00012.png">
+            <img id="ss12" src="Comp 2_00011.png">
+            <img id="ss11" src="Comp 2_00010.png">
+            <img id="ss10" src="Comp 2_00009.png">
+            <img id="ss9" src="Comp 2_00008.png">
+            <img id="ss8" src="Comp 2_00007.png">
+            <img id="ss7" src="Comp 2_00006.png">
+            <img id="ss6" src="Comp 2_00005.png">
+            <img id="ss5" src="Comp 2_00004.png">
+            <img id="ss4" src="Comp 2_00003.png">
+            <img id="ss3" src="Comp 2_00002.png">
+            <img id="ss2" src="Comp 2_00001.png">
+            <img id="ss1" src="Comp 2_00000.png">
+        </div>
+        <div class="s2" id="s2">
+            <a href="javascript:window.open(window.clickTag)">
+            <img id="ss40" src="Comp 2_00059-min.png">
+            <div style="position:absolute;top:3px;left:15px;">
+		    <img src="video.jpg" width="290" height="163"></div>
+            </a>
+        </div>
+    </div><IFRAME SRC="https://ad.doubleclick.net/ddm/trackimpi/N465016.337837CLICKVOL.COM/B28199977.341949725;dc_trk_aid=533839835;dc_trk_cid=175166485;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ltd=?" WIDTH=1 HEIGHT=1 MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no BORDERCOLOR='#000000'></IFRAME><SCRIPT TYPE="application/javascript" SRC="https://pixel.adsafeprotected.com/rjss/st/1118578/64743277/skeleton.js"></SCRIPT> <NOSCRIPT><IMG SRC="https://pixel.adsafeprotected.com/rfw/st/1118578/64743276/skeleton.gif?gdpr=${GDPR}&gdpr_consent=${GDPR_CONSENT_278}&gdpr_pd=${GDPR_PD}" BORDER=0 WIDTH=1 HEIGHT=1 ALT=""></NOSCRIPT>
+</body>
+</html>
