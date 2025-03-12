@@ -340,3 +340,14 @@ h3 {
   border-left: 1px solid rgba(0, 0, 0, 0.2);
   transform: translateX(100%);
 }
+
+.mockup {
+  border: 8px solid #2e2e2e;
+  border-radius: 24px;
+  margin-bottom: 16px;
+}
+
+.mockup img {
+  border-radius: 16px;
+  
+}
